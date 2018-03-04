@@ -20,7 +20,15 @@ class Solution:
             self.InorderTreeWalk(x.right)
 
     def LeftRotate(self, T, x):
-        y = x.right
+        '''左旋将左图转为右图
+            |       O          |     |            O         |
+            |    X             |     |         U            |
+            | a     U          | --> |      X    c          |
+            |     b   c        |     |    a   b             |
+
+        #a， c 都可以不用动 ，先将b和X构造关系，主要要相互赋值（x的right为b，b的parent为x）。
+        '''
+        y = x.right                 #可以理解为：依次构造X和b、U和O、U和X的关系
         x.right = y.left
         if y.left != T.nil:
             y.left.parent = x
@@ -36,7 +44,7 @@ class Solution:
 
     def RightRotate(self, T, x):
         y = x.left
-        x.left = y.right
+        x.left = y.right          #和左旋操作相反。
         if y.right != T.nil:
             y.right.parent = x
         y.parent = x.parent
@@ -57,13 +65,13 @@ class Solution:
 
         y = T.nil
         x = T.root
-        while x != T.nil:
+        while x != T.nil:           #在while循环中，可以看作是按z的key值先找到树T的底部节点并存为y。
             y = x
             if z.key < x.key:
                 x = x.left
             else:
                 x = x.right
-        z.parent = y
+        z.parent = y                #以下步骤就是按z的key值与y做相互链接，并将z上色。
         if y == T.nil:
             T.root = z
         elif z.key < y.key:
@@ -73,25 +81,25 @@ class Solution:
         z.left = T.nil
         z.right = T.nil
         z.color = 'red'
-        self.RBInsertFixup(T,z)
+        self.RBInsertFixup(T,z)      #调用Fixup将z进行操作放至合理位置。
 
     def RBInsertFixup(self, T, z):
-        while z.parent.color == 'red':
-            if z.parent == z.parent.parent.left:
-                y = z.parent.parent.right
-                if y.color == 'red':
-                    z.parent.color = 'black'
-                    y.color = 'black'
-                    z.parent.parent.color = 'red'
-                    z = z.parent.parent
-                else:
-                    if z == z.parent.right:
-                        z = z.parent
-                        self.LeftRotate(T, z)
-                    z.parent.color = 'black'
-                    z.parent.parent.color = 'red'
-                    self.RightRotate(T,z.parent.parent)
-            else:
+        while z.parent.color == 'red':           #当z的父节点为红色时
+            if z.parent == z.parent.parent.left:    #如果z的父节点在左边
+                y = z.parent.parent.right               #先将z的叔节点存储
+                if y.color == 'red':                    #如果z的叔节点为红色
+                    z.parent.color = 'black'                #将z的父节点改为黑色
+                    y.color = 'black'                       #将z的叔节点改为黑色
+                    z.parent.parent.color = 'red'           #将z的祖父节点改为红色
+                    z = z.parent.parent                     #将z的祖父节点赋值给z
+                else:                                   #如果z的叔节点为黑色
+                    if z == z.parent.right:                 #如果z节点在右边
+                        z = z.parent                            #将z的父节点赋值给z
+                        self.LeftRotate(T, z)                   #对z节点进行左旋操作
+                    z.parent.color = 'black'                #将z的父节点改为黑色
+                    z.parent.parent.color = 'red'           #将z的祖父机诶但改为红色
+                    self.RightRotate(T,z.parent.parent)     #对z节点进行右旋操作
+            else:                                   #如果z的父节点在右边，操作相反。
                 y = z.parent.parent.left
                 if y.color == 'red':
                     z.parent.color = 'black'

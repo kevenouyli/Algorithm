@@ -35,7 +35,7 @@ def choice(list):
 print(choice(list))
 
 #插入排序
-print("插入排序：从左往右，发现数值小的就")
+print("插入排序：从左往右找，发现数值小的就插入左边")
 list = [3,1,50,7,8,6,2,0,10]
 print(list)
 #函数

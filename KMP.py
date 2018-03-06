@@ -29,4 +29,4 @@ def kmp_match(s, p):
 	return False
 
 print (kmp_match("BBC ABCDAB ABCD23ABCDABDE", "ABCDABD"))
-print("BBC ABCDAB ABCD23ABCDABDE"[17])
+print ("BBC ABCDAB ABCD23ABCDABDE"[17])

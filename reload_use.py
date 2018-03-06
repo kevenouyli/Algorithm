@@ -225,3 +225,5 @@ class accesscontrol:
 X = accesscontrol()
 X.age = 40  # call __setattr__
 X.name = 'wang'  # raise exception
+
+
